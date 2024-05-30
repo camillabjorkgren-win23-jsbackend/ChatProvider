@@ -1,10 +1,12 @@
-﻿using ChatProvider.Data.Context;
+﻿using ChatProvider.ApiKey;
+using ChatProvider.Data.Context;
 using ChatProvider.Data.Models;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChatProvider.Hubs;
 
+[UseApiKey]
 public class ChatHub(DataContext context) : Hub
 {
     private readonly DataContext _context = context;
@@ -49,38 +51,4 @@ public class ChatHub(DataContext context) : Hub
             Console.WriteLine(ex.Message);
         }
     }
-    //public async Task JoinChat(UserConnection uc)
-    //{
-    //    await Clients.All.SendAsync("ReceiveMessage", DateTime.Now.ToString("HH:mm"), $"{uc.UserName} has joined the chat");
-    //}
-
-    //public async Task JoinSpecificChatRoom(UserConnection uc)
-    //{
-    //    uc.ConnectionId = Context.ConnectionId;
-    //    await Groups.AddToGroupAsync(uc.ConnectionId, uc.ChatRoom);
-
-    //    _context.Add(uc);
-    //    await _context.SaveChangesAsync();
-
-    //    await Clients.Groups(uc.ChatRoom).SendAsync("ReceiveMessage", DateTime.Now.ToString("HH:mm"), $"{uc.UserName} has joined the chat");
-    //}
-
-    //public async Task SendMessage(string message)
-    //{
-    //    var uc = await _context.Connections.FirstOrDefaultAsync(x => x.ConnectionId == Context.ConnectionId);
-    //    if(uc != null)
-    //    {
-    //        await Clients.Groups(uc.ChatRoom).SendAsync("ReceiveMessage", DateTime.Now.ToString("HH:mm"), uc.UserName, message);
-
-    //    }
-
-    //}
-
-    //public async Task StartTyping(string userName, string chatRoom)
-    //{
-    //    await Clients.Group(chatRoom).SendAsync("UserTyping", userName);
-    //}
-
-
-
 }
